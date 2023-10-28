@@ -1,6 +1,10 @@
 package com.itheima.consumer.listeners;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -35,12 +39,22 @@ public class MqListener {
         System.out.println("消费者2接受到了 fanout.queue2的消息：" + msg);
     }
 
-    @RabbitListener(queues = "direct.queue1")
+//    @RabbitListener(queues = "direct.queue1")
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(value = "direct.queue1", durable = "true"),
+            exchange = @Exchange(value = "hmall.direct", type = ExchangeTypes.DIRECT),
+            key = {"red", "blue"}
+    ))
     public void listenDirectQueue1(String msg) throws InterruptedException {
         System.out.println("消费者1接受到了 direct.queue1的消息：" + msg);
     }
 
-    @RabbitListener(queues = "direct.queue2")
+//    @RabbitListener(queues = "direct.queue2")
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(value = "direct.queue2", durable = "true"),
+            exchange = @Exchange(value = "hmall.direct", type = ExchangeTypes.DIRECT),
+            key = {"red", "yellow"}
+    ))
     public void listenDirectQueue2(String msg) throws InterruptedException {
         System.out.println("消费者2接受到了 direct.queue2的消息：" + msg);
     }
