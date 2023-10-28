@@ -24,4 +24,15 @@ public class MqListener {
         System.err.println("消费者2接受到了work.queue的消息：" + msg);
         Thread.sleep(200);
     }
+
+    @RabbitListener(queues = "fanout.queue1")
+    public void listenFanoutQueue1(String msg) throws InterruptedException {
+        System.out.println("消费者1接受到了 fanout.queue1的消息：" + msg);
+    }
+
+    @RabbitListener(queues = "fanout.queue2")
+    public void listenFanoutQueue2(String msg) throws InterruptedException {
+        System.out.println("消费者2接受到了 fanout.queue2的消息：" + msg);
+    }
+
 }
