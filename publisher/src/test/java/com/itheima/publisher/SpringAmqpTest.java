@@ -42,4 +42,11 @@ public class SpringAmqpTest {
         String msg = "蓝色通知, 警报解除, 哥斯拉是放的气球!";
         rabbitTemplate.convertAndSend(exchangeName, "blue", msg);
     }
+
+    @Test
+    void testSendTopic() {
+        String exchangeName = "hmall.topic";
+        String msg = "今天天气真好, 适合出去玩!";
+        rabbitTemplate.convertAndSend(exchangeName, "china.weather", msg);
+    }
 }
